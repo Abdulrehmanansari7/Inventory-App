@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <div class="h-screen flex flex-col gap-6 items-center justify-center">
+        <h1 class="text-6xl"><%= status %></h1>
+        <p class="text-2xl"><%= message %></p>
+        <a class="border-2 border-gray-300 bg-gray-500 text-white rounded-2xl px-4 py-1" href="/">Back to home</a>
+    </div>
+</body>
+</html>

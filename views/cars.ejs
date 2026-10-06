@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <div class="h-screen flex flex-col overflow-hidden">
+
+        <!-- top bar -->
+        <div class="h-16 shrink-0 flex justify-around items-center gap-6 px-4">
+            <a href="/"><i class="fa-solid fa-circle-arrow-left fa-2xl" style="color: rgb(128, 135, 132);"></i></a>
+
+            <form class="flex items-center gap-3" action="/searchCar" method="post">
+                <input type="hidden" name="companyId" value="<%= companyId %>">
+                <input type="number" name="minPrice" value="<%= locals.old ? old.minPrice : '' %>" min="0" step="0.01" placeholder="Minimum Price" class="border-2 border-gray-500 rounded-2xl pl-2 w-40">
+                <p>TO</p>
+                <input type="number" name="maxPrice" value="<%= locals.old ? old.maxPrice : '' %>" min="0" step="0.01" placeholder="Maximum Price" class="border-2 border-gray-500 rounded-2xl pl-2 w-40">
+                <button type="submit">Search</button>
+            </form>
+
+            <a class="bg-teal-300 rounded-2xl p-1 text-white" href="/company/<%= companyId %>">SHOW ALL</a>
+            <a href="/form/<%= companyId %>"><i class="fa-solid fa-circle-plus fa-2xl" style="color: rgb(99, 230, 190);"></i></a>
+        </div>
+
+        <% if (locals.errors && errors.length) { %>
+        <div class="shrink-0 text-center text-red-600 py-2">
+            <% errors.forEach((e) => { %>
+                <p><%= e.msg %></p>
+            <% }) %>
+        </div>
+        <% } %>
+
+        <!-- cards area: the only part that scrolls -->
+        <div class="flex-1 overflow-auto no-scrollbar">
+            <div class="min-h-full flex justify-center items-center py-6">
+
+                <% if (!carsModel || carsModel.length === 0) { %>
+                    <div class="text-2xl">Car not Found</div>
+                <% } else { %>
+                    <div class="w-4/5 mx-auto flex flex-wrap justify-center gap-10">
+                        <% carsModel.forEach((car) => { %>
+                            <div class="bg-gray-500 w-70 flex flex-col gap-y-2 py-5 text-left pl-2 text-white border-gray-300 border-4 border-solid">
+                                <h1 class="text-3xl h-20 border-b-2 border-gray-300"><%= car.model %></h1>
+                                <h1 class="text-xl">Year: <%= car.year %></h1>
+                                <h1 class="text-lg">Price: <%= Number(car.price).toLocaleString() %></h1>
+                                <form action="/delete/<%= car.id %>" method="POST">
+                                    <button type="submit">Delete</button>
+                                </form>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } %>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

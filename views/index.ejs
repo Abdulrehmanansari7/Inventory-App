@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><%= title %></title>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <div class="h-screen flex flex-col overflow-hidden">
+
+        <!-- top bar -->
+        <div class="h-16 shrink-0 flex justify-center items-center gap-6 px-4">
+            <% if (locals.search) { %>
+                <a href="/"><i class="fa-solid fa-circle-arrow-left fa-2xl fa-black"></i></a>
+            <% } %>
+
+            <form class="flex items-center gap-3" action="/searchCompany" method="post">
+                <input type="text" name="search" maxlength="100" value="<%= locals.search || '' %>" placeholder="Company or country" class="border-2 border-gray-500 rounded-2xl pl-2 w-64">
+                <button type="submit">Search</button>
+            </form>
+        </div>
+
+        <% if (locals.errors && errors.length) { %>
+        <div class="shrink-0 text-center text-red-600 py-2">
+            <% errors.forEach((e) => { %>
+                <p><%= e.msg %></p>
+            <% }) %>
+        </div>
+        <% } %>
+
+        <!-- cards area: the only part that scrolls -->
+        <div class="flex-1 overflow-auto no-scrollbar">
+            <div class="min-h-full flex justify-center items-center py-6">
+
+                <% if (!companies || companies.length === 0) { %>
+                    <div class="text-2xl">Company not found</div>
+                <% } else { %>
+                    <div class="w-3/5 mx-auto flex flex-wrap justify-center gap-10">
+                        <% companies.forEach((company) => { %>
+                            <a href="/company/<%= company.id %>">
+                                <div class="bg-gray-500 w-70 py-5 text-center text-white border-gray-300 border-4 border-solid">
+                                    <h2 class="text-3xl"><%= company.name %></h2>
+                                    <p class="text-lg"><%= company.country %></p>
+                                </div>
+                            </a>
+                        <% }) %>
+                    </div>
+                <% } %>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

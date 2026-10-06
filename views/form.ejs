@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Document</title>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <div class="h-screen flex flex-col gap-10 items-center justify-center">
+            <form class="flex flex-col items-start gap-2 border-4 border-gray-500 rounded-2xl p-8" action="/form/submitCar/<%= id %>" method="POST">
+            <% if (locals.errors && errors.length) { %>
+                <div class="text-red-600">
+                    <% errors.forEach((e) => { %>
+                        <p><%= e.msg %></p>
+                    <% }) %>
+                </div>
+            <% } %>
+            <label for="model">Model</label>
+            <input type="text" class="border-2 border-black rounded-2xl pl-5" id="model" name="model" maxlength="100" value="<%= locals.old ? old.model : '' %>" required>
+            <label for="year">Year</label>
+            <input type="number" class="border-2 border-black rounded-2xl pl-5" id="year" name="year" min="1886" value="<%= locals.old ? old.year : '' %>" required>
+            <label for="price">Price</label>
+            <input type="number" class="border-2 border-black rounded-2xl pl-5" id="price" name="price" min="0" step="0.01" value="<%= locals.old ? old.price : '' %>" required>
+            <button class="px-2 border-2 border-gray-200 bg-gray-500 text-white rounded-2xl mt-2" type="submit">Submit</button>
+        </form>
+        <button class="border-2 border-gray-300 bg-gray-500 text-white rounded-2xl px-2"><a href="/company/<%= id %>">BACK</a></button>
+    </div>
+</body>
+</html>
